@@ -1,10 +1,12 @@
-package com.alex.excel.users.helper;
+package com.alex.excel.dataexchange.excel;
 
+import com.alex.excel.dataexchange.FileDataPersistenceProcessor;
 import com.alex.excel.users.entity.User;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,17 +17,19 @@ import java.util.List;
 import java.util.Objects;
 
 
-// // replaced by ExcelUsersDataProcessor
-public class ExcelUploadHelper {
+@Component("ExcelUsersDataProcessor")
+public class ExcelUsersDataProcessor implements FileDataPersistenceProcessor<User> {
 
-    public static boolean isValidExcelFile(MultipartFile file) {
+    @Override
+    public boolean isValidFile(MultipartFile file) {
         // Excel contentType
         String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
         return Objects.equals(file.getContentType(), contentType);
     }
 
-    public static List<User> getUsersDataFromExcel(InputStream inputStream) {
+    @Override
+    public List<User> processData(InputStream inputStream) {
         List<User> users = new ArrayList<>();
 
 
@@ -69,7 +73,8 @@ public class ExcelUploadHelper {
                 users.add(user);
             }
         } catch (IOException e) {
-            e.getStackTrace();
+            e.printStackTrace();
+            throw new RuntimeException("Invalid Excel File");
         }
 
         return users;
