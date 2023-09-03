@@ -7,7 +7,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class ExcelUploadHelper {
                 User user = new User();
 
                 while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();  // avanzar a la siguinete cell para terminar el while
+                    Cell cell = cellIterator.next();  // move to the next cell to end the while loop
 
                     // build user (depends on the Excel data structure)
                     switch (cellIndex) {
