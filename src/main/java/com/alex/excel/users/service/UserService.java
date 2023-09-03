@@ -4,6 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
 
-    void saveExcelUserList(MultipartFile file);
+    void massiveUserCreationFromFile(MultipartFile file);
 
 }

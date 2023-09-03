@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void saveExcelUserList(MultipartFile file) {
+    public void massiveUserCreationFromFile(MultipartFile file) {
         if (!ExcelUploadHelper.isValidExcelFile(file)) throw new IllegalArgumentException("Invalid File");
 
         try {
