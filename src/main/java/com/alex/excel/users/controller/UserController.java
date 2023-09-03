@@ -2,6 +2,7 @@ package com.alex.excel.users.controller;
 
 import com.alex.excel.common.constants.PaginationConstants;
 import com.alex.excel.users.dto.PaginatedUsersResponseDto;
+import com.alex.excel.users.dto.UserRequestDto;
 import com.alex.excel.users.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -20,6 +23,13 @@ public class UserController {
 
     private final UserService userService;
 
+
+    @PostMapping
+    public ResponseEntity<?> bulkCreate(@RequestBody List<UserRequestDto> userRequestDtoList) {
+        this.userService.bulkCreate(userRequestDtoList);
+
+        return ResponseEntity.ok(null);
+    }
 
     @PostMapping("/upload-users-data")
     public ResponseEntity<?> uploadUsersData(

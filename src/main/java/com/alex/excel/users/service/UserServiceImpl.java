@@ -1,6 +1,7 @@
 package com.alex.excel.users.service;
 
 import com.alex.excel.users.dto.PaginatedUsersResponseDto;
+import com.alex.excel.users.dto.UserRequestDto;
 import com.alex.excel.users.entity.User;
 import com.alex.excel.users.helper.ExcelUploadHelper;
 import com.alex.excel.users.repository.UserRepository;
@@ -12,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+
+import org.modelmapper.ModelMapper;
 
 
 @Service
@@ -45,6 +48,17 @@ public class UserServiceImpl implements UserService {
                 .totalPages(userPage.getTotalPages())
                 .isLastOne(userPage.isLast())
                 .build();
+    }
+
+    @Override
+    public void bulkCreate(List<UserRequestDto> userRequestDtoList) {
+        ModelMapper modelMapper = new ModelMapper();
+
+        List<User> users = userRequestDtoList.stream().map(
+                userRequestDto -> modelMapper.map(userRequestDto, User.class)
+        ).toList();
+
+        this.userRepository.saveAll(users);
     }
 
 }
